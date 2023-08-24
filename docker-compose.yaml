@@ -1,0 +1,9 @@
+services:
+  test:
+    image: test-bp
+    container_name: latex-compiler
+    privileged: true
+    network_mode: host
+    command: /bin/bash
+    volumes:
+      - ${WORKDIR}/:/root/data/
