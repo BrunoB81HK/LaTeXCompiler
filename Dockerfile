@@ -14,9 +14,17 @@ RUN apt upgrade -y
 # Install desired packages
 RUN apt install -y texlive-latex-extra texlive-fonts-extra texlive-bibtex-extra
 RUN apt install -y ghostscript
+RUN apt install -y texlive-science
+RUN apt install -y inkscape
+RUN apt install -y tree
 
 # Clean apt
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt clean
 
-WORKDIR /root
+# Set the working directory
+# WORKDIR /data
+
+# Copy scripts and set entrypoint to image
+COPY ./scripts/* /
+ENTRYPOINT ["/entrypoint.sh"]
