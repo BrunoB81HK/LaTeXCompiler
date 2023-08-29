@@ -8,7 +8,7 @@ fi
 
 _help () {
   echo 'LaTeXCompilerDockerImage'
-  echo 'A Docker image with all the tools ready to compile a latex project with pdflatex and bibtex'
+  echo 'A Docker image with all the tools ready to compile a latex project with pdflatex and bibtex.'
   echo
   echo 'Usage:'
   echo '  docker run -t latex-img:latest -v <project_root>/:/data/ (-f | --file) <tex_file_name> [-o --skip-opt]'

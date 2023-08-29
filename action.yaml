@@ -1,0 +1,30 @@
+name: 'LaTeX Compiler'
+description: 'A Docker image with all the tools ready to compile a LaTeX project with pdflatex and bibtex.'
+
+inputs:
+  file:
+    description: 'The tex main file of the LaTeX project.'
+    required: true
+    default: 'main'
+  root:
+    description: 'The root directory of the LaTeX project.'
+    required: true
+    default: ${{ github.workspace }}
+
+outputs:
+  pdf-name:
+    description: 'The name of the pdf file.'
+    value: ${{ format('{0}.pdf', inputs.file) }}
+  optimized-pdf-file:
+    description: 'The name of the optimized pdf file.'
+    value: ${{ format('{0}_opt.pdf', inputs.file) }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Run the compilation process with Docker'
+      uses: addnab/docker-run-action@v3
+      with:
+        image: ghcr.io/brunob81hk/latex-img:v0.2
+        options: --rm -v ${{ inputs.root }}:/data/
+        run: /bin/bash /entrypoint.sh -f ${{ inputs.file }}
