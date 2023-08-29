@@ -14,7 +14,7 @@ jobs:
       contents: read
     steps:
       - name: 'Checkout GitHub Action'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 'Set GH_USER to lower case github.actor'
         env:
@@ -22,7 +22,7 @@ jobs:
         run: echo "GH_USER=${GH_ACTOR,,}" >>${GITHUB_ENV}
 
       - name: 'Login to ghcr.io'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
