@@ -1,30 +1,25 @@
 FROM ubuntu:20.04
 
-LABEL maintainer="bp.busque@outlook.com"
-LABEL version="0.1"
-LABEL description="A Docker image with all the tools ready to compile a latex project with `pdflatex` and `bibtex`"
-
-# Disable Prompt During Packages Installation
-ARG DEBIAN_FRONTEND=noninteractive
+LABEL org.opencontainers.image.description="A Docker image with all the tools ready to compile a latex project with `pdflatex` and `bibtex`"
+LABEL org.opencontainers.image.source=https://github.com/BrunoB81HK/LaTeXCompiler
+LABEL org.opencontainers.image.version=0.3
 
 # Update Ubuntu Software repository
-RUN apt update
-RUN apt upgrade -y
-
-# Install desired packages
-RUN apt install -y texlive-latex-extra texlive-fonts-extra texlive-bibtex-extra
-RUN apt install -y ghostscript
-RUN apt install -y texlive-science
-RUN apt install -y inkscape
-RUN apt install -y tree
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt update -q && \
+    apt install -qy \
+    texlive-latex-extra \
+    texlive-fonts-extra \
+    texlive-bibtex-extra \
+    texlive-science \
+    ghostscript \
+    inkscape
 
 # Clean apt
-RUN rm -rf /var/lib/apt/lists/*
-RUN apt clean
+RUN apt-get autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
-# WORKDIR /data
-
-# Copy scripts and set entrypoint to image
+# Copy scripts and set entrypoint
 COPY ./scripts/* /
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash","/entrypoint.sh"]
