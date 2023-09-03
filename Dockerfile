@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.description="A Docker image with all the tools ready to compile a latex project with `pdflatex` and `bibtex`"
 LABEL org.opencontainers.image.source=https://github.com/BrunoB81HK/LaTeXCompiler
-LABEL org.opencontainers.image.version=0.3
+LABEL org.opencontainers.image.version=0.4
 
 # Update Ubuntu Software repository
 ARG DEBIAN_FRONTEND=noninteractive

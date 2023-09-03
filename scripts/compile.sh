@@ -38,7 +38,7 @@ if [ -f /data/"$_filename_tex" ]; then
     $_command
     _status_code="$?"
 
-    if [ "$_status_code" -gt 1  ]; then
+    if [ "$_status_code" -gt 0  ]; then
       _fail "Compilation failed with code $_status_code!" 'Aborting...'
       exit "$_status_code"
     fi
@@ -63,14 +63,21 @@ if [ -f /data/"$_filename_tex" ]; then
     exit "$_status_code"
   fi
 
+  _size_unit=kB
   (( _org_size = $(wc -c "$_filename_pdf" | cut -d' ' -f1)/1000 ))
   (( _opt_size = $(wc -c "$_filename_opt_pdf" | cut -d' ' -f1)/1000 ))
   (( _opt_gain = 100*(_org_size - _opt_size)/_org_size )) || true
 
+  if [ "$_org_size" -gt 1000 ]; then
+    _size_unit=MB
+    (( _org_size = _org_size/1000 ))
+    (( _opt_size = _opt_size/1000 ))
+  fi
+
   # Copy optimized pdf back in shared volume
   cp /data_tmp/"$_filename_opt_pdf" /data/"$_filename_opt_pdf"
 
-  _success 'Optimization successful!' "From ${_org_size} kB to ${_opt_size} kB (-$_opt_gain%)"
+  _success 'Optimization successful!' "From ${_org_size} ${_size_unit} to ${_opt_size} ${_size_unit} (-$_opt_gain%)"
 
   exit 0
 
