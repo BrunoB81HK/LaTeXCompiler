@@ -38,7 +38,7 @@ if [ -f /data/"$_filename_tex" ]; then
     $_command
     _status_code="$?"
 
-    if [ "$_status_code" -gt 0  ]; then
+    if [ "$_status_code" -gt 1  ]; then
       _fail "Compilation failed with code $_status_code!" 'Aborting...'
       exit "$_status_code"
     fi
